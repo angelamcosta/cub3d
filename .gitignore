@@ -2,3 +2,4 @@
 cub3D
 valgrind_log.txt
 .vscode
+*.a
