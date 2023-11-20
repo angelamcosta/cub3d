@@ -13,11 +13,9 @@
   
 </div>
 
-## Project Description:
-
 cub3D is a project that involves creating a "realistic" 3D graphical representation of the interior of a maze from a first-person perspective. This representation is achieved using Ray-Casting principles. The subject of the project can be found [here](https://raw.githubusercontent.com/angelamcosta/cub3d/main/en.subject.pdf).
 
-## Mandatory Features:
+## 📜 Mandatory Features
 
 -   The program should be capable of setting the floor and ceiling colors with two different colors.
 -   It displays the image in a window and follows these rules:
@@ -27,7 +25,7 @@ cub3D is a project that involves creating a "realistic" 3D graphical representat
     -   Clicking the red cross in the window frame should close the window and exit the program cleanly.
     -   The use of miniLibX images is recommended.
 
-## Additional Features (BONUS):
+## ⭐ Additional Features
 
 -   Wall collisions.
 -   A minimap system.
@@ -35,18 +33,14 @@ cub3D is a project that involves creating a "realistic" 3D graphical representat
 -   Animated sprites.
 -   Rotating the viewpoint with the mouse.
 
-## Makefile Requirements:
-
--   Available commands in the Makefile are: all, clean, fclean, re, bonus.
-
-## Map Analysis:
+## 📍 Map Analysis
 
 -   The program takes a scene description file with the .cub extension as its first argument.
 -   The map should consist only of 6 possible characters: 0 for an empty space, 1 for a wall, and N, S, E, or W for the player's starting position and orientation.
 -   The map should be enclosed/surrounded by walls; otherwise, the program should return an error.
 -   Each element (except the map) has a type identifier (composed of one or two characters), followed by specific information for each object in a strict order.
 
-## Project Submission Instructions:
+## ☑️ Project Submission Instructions
 
 -   All files must be included in the submission.
 -   The Makefile must contain the commands: all, clean, fclean, re, bonus.
