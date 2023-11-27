@@ -18,7 +18,11 @@ VAL		=	--leak-check=full \
 			--log-file=valgrind_log.txt \
 
 SRC		=	cub3D.c \
-			$(FILES)/map_parser.c
+			$(FILES)/get_next_line_utils.c \
+			$(FILES)/get_next_line.c \
+			$(FILES)/map_args.c \
+			$(FILES)/map_parser.c \
+			$(FILES)/utils.c
 
 OBJ		=	$(SRC:.c=.o)
 
