@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:10:10 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/27 19:06:39 by anlima           ###   ########.fr       */
+/*   Updated: 2023/11/27 19:12:16 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	check_textures(char *filename);
 
 int	split_params(char *line)
 {
-	int		i;
 	int		flag;
 	char	**rgb;
 	char	**args;
@@ -32,13 +31,11 @@ int	split_params(char *line)
 		{
 			rgb = ft_split(args[1], ',');
 			flag = check_params(rgb);
-			i = -1;
 			free_dptr(rgb);
 		}
 		else
 			flag = check_params(&args[1]);
 	}
-	i = -1;
 	free_dptr(args);
 	return (flag);
 }
