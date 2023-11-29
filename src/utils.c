@@ -6,21 +6,22 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:17:23 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/27 19:07:01 by anlima           ###   ########.fr       */
+/*   Updated: 2023/11/29 15:16:50 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
+t_map	*map(void);
 int		get_flag(char *line);
 void	free_dptr(char **str);
 
-// t_win	*win(void)
-// {
-// 	static t_win	win;
+t_map	*map(void)
+{
+	static t_map	map;
 
-// 	return (&win);
-// }
+	return (&map);
+}
 
 int	get_flag(char *line)
 {
