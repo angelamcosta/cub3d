@@ -6,11 +6,11 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:11:08 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/27 19:03:12 by anlima           ###   ########.fr       */
+/*   Updated: 2023/11/29 16:12:24 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 int	is_alnum(char *filename);
 int	is_empty(char *filename);
@@ -84,7 +84,7 @@ int	is_alnum(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		perror(filename);
+		write(2, "error fd\n", 10);
 		close(fd);
 		return (0);
 	}
