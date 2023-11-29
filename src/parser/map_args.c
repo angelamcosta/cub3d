@@ -6,43 +6,54 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:10:10 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/29 16:12:30 by anlima           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:03:40 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
+int	is_filled(void);
+int	save_map(char *line);
 int	split_params(char *line);
 int	read_args(char *filename);
 int	check_params(char **line);
 
+int	is_filled(void)
+{
+	if (!map()->no || !map()->so || !map()->ea || !map()->we)
+		return (0);
+	if (!map()->floor[0] || !map()->floor[1] || !map()->floor[2])
+		return (0);
+	if (!map()->ceiling[0] || !map()->ceiling[1] || !map()->ceiling[2])
+		return (0);
+	return (1);
+}
+
 int	split_params(char *line)
 {
 	int		flag;
-	char	**rgb;
 	char	**args;
 
 	if (*line == '\n')
 		return (1);
 	if (line)
 		line[ft_strlen(line) - 1] = '\0';
-	args = ft_split(line, ' ');
 	flag = 0;
-	if (!ft_strncmp(args[0], "C", 1) || !ft_strncmp(args[0], "F", 1))
+	if (!is_filled())
 	{
-		rgb = ft_split(args[1], ',');
-		flag = check_params(rgb);
-		if (flag)
-			save_rgb(rgb, *args[0]);
-		free_dptr(rgb);
+		args = ft_split(line, ' ');
+		if (!ft_strncmp(args[0], "C", 1) || !ft_strncmp(args[0], "F", 1))
+			flag = check_rgb(args);
+		else if (is_texture(args[0]))
+		{
+			flag = check_params(&args[1]);
+			if (flag)
+				save_textures(args[0], args[1]);
+		}
+		free_dptr(args);
 	}
-	else if (is_texture(args[0]))
-	{
-		flag = check_params(&args[1]);
-		if (flag)
-			save_textures(args[0], args[1]);
-	}
-	free_dptr(args);
+	else
+		flag = save_map(line);
 	return (flag);
 }
 
@@ -91,6 +102,30 @@ int	check_params(char **line)
 				return (0);
 		}
 	}
+	return (1);
+}
+
+int	save_map(char *line)
+{
+	int		i;
+	char	**copy;
+
+	i = 0;
+	while (map()->map && map()->map[i])
+		i++;
+	copy = (char **)malloc(sizeof(char *) * (i + 2));
+	i = 0;
+	while (map()->map && map()->map[i])
+	{
+		copy[i] = ft_strdup(map()->map[i]);
+		i++;
+	}
+	copy[i] = ft_strdup(line);
+	copy[++i] = 0;
+	map()->cols++;
+	if (map()->map)
+		free_dptr(map()->map);
+	map()->map = copy;
 	return (1);
 }
 
