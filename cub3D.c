@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/29 17:05:47 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/01 16:26:24 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ int	main(int argc, char **argv)
 	printf("SO -> %s\n", map()->so);
 	printf("EA -> %s\n", map()->ea);
 	printf("WE -> %s\n", map()->we);
-	for (int i = 0; i < map()->cols; i++)
-		printf("map[%i] ->\t%s\n", i, map()->map[i]);
+	set_row_col();
+	for (int i = 0; i < map()->rows; i++)
+		printf("map[%i] ->\t|%s|\n", i, map()->map[i]);
+	printf("DEBUG: rows => %i\tcols => %i\n", map()->rows, map()->cols);
+	printf("DEBUG: is it valid => %i\n", is_valid_map(map()->map, map()->rows, map()->cols));
+	for (int i = 0; i < map()->rows; i++)
+		printf("map[%i] ->\t|%s|\n", i, map()->map[i]);
 	return (1);
 }
