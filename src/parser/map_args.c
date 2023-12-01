@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:10:10 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/29 17:03:40 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/01 16:20:04 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	save_map(char *line)
 	}
 	copy[i] = ft_strdup(line);
 	copy[++i] = 0;
-	map()->cols++;
+	map()->rows++;
 	if (map()->map)
 		free_dptr(map()->map);
 	map()->map = copy;
