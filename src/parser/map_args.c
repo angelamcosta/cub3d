@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:10:10 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/04 17:57:21 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/04 21:30:03 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ int	split_params(char *line)
 	int		flag;
 	char	**args;
 
-	if (*line == '\n')
+	if (*line == '\n' && !map()->map)
 		return (1);
-	if (line && line[ft_strlen(line) - 1] == '\n')
-		line[ft_strlen(line) - 1] = '\0';
+	else if (*line == '\n')
+		return (0);
+	flag = ft_strlen(line) - 1;
+	if (line && line[flag] == '\n')
+		line[flag] = '\0';
 	flag = 0;
 	if (!is_filled())
 	{
@@ -52,7 +55,7 @@ int	split_params(char *line)
 		}
 		free_dptr(args);
 	}
-	else
+	else if (is_valid_str(line))
 		flag = save_map(line);
 	return (flag);
 }
@@ -128,9 +131,3 @@ int	save_map(char *line)
 	map()->map = copy;
 	return (1);
 }
-
-// TODO : - Verify RGB exists
-// TODO : - Verify textures exist
-// TODO : - Verify each RGB is declared once
-// TODO : - Verify each texture is declared once
-// TODO : - Verify map exist, is the last argument and is valid
