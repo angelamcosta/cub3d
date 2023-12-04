@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:10:10 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/01 16:20:04 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/04 17:57:21 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	split_params(char *line)
 
 	if (*line == '\n')
 		return (1);
-	if (line)
+	if (line && line[ft_strlen(line) - 1] == '\n')
 		line[ft_strlen(line) - 1] = '\0';
 	flag = 0;
 	if (!is_filled())
