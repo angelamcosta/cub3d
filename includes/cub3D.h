@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/01 16:46:20 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/04 20:58:39 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_map
 	char	*we;
 	char	*floor[3];
 	char	*ceiling[3];
+	char	pos[3];
 }			t_map;
 
 typedef struct s_win
@@ -39,8 +40,10 @@ typedef struct s_win
 
 // flood_fill
 void		set_row_col(void);
+int			mark_regions(void);
+int			is_map_closed(void);
 int			is_valid_char(char c);
-void		handle_spaces(char **map, int rows, int cols);
+void		dfs(int row, int col, char mark);
 // map_args
 int			is_filled(void);
 int			save_map(char *line);
@@ -53,6 +56,10 @@ int			is_empty(char *filename);
 int			open_file(char *filename);
 int			verify_map(char *filename);
 int			check_extension(char *filename, char *extension);
+// parser_utils
+int			is_valid_path(void);
+int			is_valid_str(char *str);
+int			check_char(int i, int j);
 // rgb
 int			check_rgb(char **args);
 void		save_rgb(char **rgb, char pos);

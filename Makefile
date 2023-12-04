@@ -21,6 +21,7 @@ SRC		=	cub3D.c \
 			$(FILES)/parser/flood_fill.c \
 			$(FILES)/parser/map_args.c \
 			$(FILES)/parser/map_parser.c \
+			$(FILES)/parser/parser_utils.c \
 			$(FILES)/parser/rgb.c \
 			$(FILES)/parser/textures.c \
 			$(FILES)/get_next_line_utils.c \
