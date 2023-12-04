@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:43:25 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/29 16:58:21 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/04 20:33:50 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	check_rgb(char **args)
 
 	flag = 0;
 	rgb = ft_split(args[1], ',');
+	if (!rgb[0] || !rgb[1] || !rgb[2])
+	{
+		free_dptr(rgb);
+		return (flag);
+	}
 	flag = check_params(rgb);
 	if (flag)
 		save_rgb(rgb, *args[0]);
