@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/04 20:58:39 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/14 14:24:05 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void		save_rgb(char **rgb, char pos);
 int			is_texture(char *pos);
 int			check_textures(char *filename);
 void		save_textures(char *pos, char *texture);
+// general
+void		init_vars(void);
 // utils
 t_map		*map(void);
 void		clean_mallocs(void);
