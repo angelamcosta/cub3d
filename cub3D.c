@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/04 21:13:02 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/14 14:24:15 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	main(int argc, char **argv)
 {
+	init_vars();
 	if (argc != 2 || !verify_map(argv[1]))
 		return (write(2, ARG_ERROR, 49));
 	if (!read_args(argv[1]))
