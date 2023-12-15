@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:19:29 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/14 14:25:22 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/14 14:51:39 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	dfs(int row, int col, char mark)
 		|| map()->map[row][col] == 'E' || map()->map[row][col] == 'W')
 	{
 		if (map()->pos[0] != '-')
+			return ;
+		if (row == 0 || row == map()->rows - 1 || col == 0 || col == map()->cols - 1)
 			return ;
 		map()->pos[0] = map()->map[row][col];
 		map()->pos[1] = row;
