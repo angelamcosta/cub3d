@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:10:10 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/04 21:30:03 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/15 18:32:03 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ int	split_params(char *line)
 	int		flag;
 	char	**args;
 
-	if (*line == '\n' && !map()->map)
-		return (1);
-	else if (*line == '\n')
-		return (0);
+	if (*line == '\n')
+		return (!map()->map);
 	flag = ft_strlen(line) - 1;
 	if (line && line[flag] == '\n')
 		line[flag] = '\0';
@@ -51,7 +49,7 @@ int	split_params(char *line)
 		{
 			flag = check_params(&args[1]);
 			if (flag)
-				save_textures(args[0], args[1]);
+				flag = save_textures(args[0], args[1]);
 		}
 		free_dptr(args);
 	}

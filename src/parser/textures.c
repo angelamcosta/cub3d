@@ -6,15 +6,15 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:23:02 by anlima            #+#    #+#             */
-/*   Updated: 2023/11/29 16:05:18 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/15 18:08:17 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-int		is_texture(char *pos);
-int		check_textures(char *filename);
-void	save_textures(char *pos, char *texture);
+int	is_texture(char *pos);
+int	check_textures(char *filename);
+int	save_textures(char *pos, char *texture);
 
 int	is_texture(char *pos)
 {
@@ -56,14 +56,18 @@ int	check_textures(char *filename)
 // 	return (1);
 // }
 
-void	save_textures(char *pos, char *texture)
+// this should return error if there are already allocated values in the texture pos
+int	save_textures(char *pos, char *texture)
 {
-	if (!ft_strncmp(pos, "NO", 2))
+	if (!ft_strncmp(pos, "NO", 2) && !map()->no)
 		map()->no = ft_strdup(texture);
-	else if (!ft_strncmp(pos, "SO", 2))
+	else if (!ft_strncmp(pos, "SO", 2) && !map()->so)
 		map()->so = ft_strdup(texture);
-	else if (!ft_strncmp(pos, "EA", 2))
+	else if (!ft_strncmp(pos, "EA", 2) && !map()->ea)
 		map()->ea = ft_strdup(texture);
-	else if (!ft_strncmp(pos, "WE", 2))
+	else if (!ft_strncmp(pos, "WE", 2) && !map()->we)
 		map()->we = ft_strdup(texture);
+	else
+		return (0);
+	return (1);
 }
