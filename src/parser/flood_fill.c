@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:19:29 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/14 14:51:39 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/18 17:31:55 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ int	is_valid_char(char c)
 
 void	dfs(int row, int col, char mark)
 {
+	if ((row == 0 || row == map()->rows - 1 || col == 0 || col == map()->cols
+			- 1) && map()->map[row][col] == '0')
+		return ;
 	if (row < 0 || row >= map()->rows || col < 0 || col >= map()->cols)
 		return ;
 	if (map()->map[row][col] == 'S' || map()->map[row][col] == 'N'
@@ -65,7 +68,8 @@ void	dfs(int row, int col, char mark)
 	{
 		if (map()->pos[0] != '-')
 			return ;
-		if (row == 0 || row == map()->rows - 1 || col == 0 || col == map()->cols - 1)
+		if (row == 0 || row == map()->rows - 1 || col == 0 || col == map()->cols
+			- 1)
 			return ;
 		map()->pos[0] = map()->map[row][col];
 		map()->pos[1] = row;
@@ -84,14 +88,18 @@ void	dfs(int row, int col, char mark)
 
 int	mark_regions(void)
 {
+	int		i;
+	int		j;
 	int		flag;
 	char	mark;
 
+	i = -1;
 	flag = 0;
 	mark = '.';
-	for (int i = 0; i < map()->rows; ++i)
+	while (++i < map()->rows)
 	{
-		for (int j = 0; j < map()->cols; ++j)
+		j = -1;
+		while (++j < map()->cols)
 		{
 			if (map()->map[i][j] == '0')
 			{
@@ -105,12 +113,19 @@ int	mark_regions(void)
 
 int	is_map_closed(void)
 {
+	int	i;
+	int	j;
+
+	i = -1;
 	if (!mark_regions())
 		return (0);
-	for (int i = 0; i < map()->rows; ++i)
+	while (++i < map()->rows)
 	{
-		for (int j = 0; j < map()->cols; ++j)
+		j = -1;
+		while (++j < map()->cols)
 		{
+			if (map()->map[i][j] == '0')
+				return (0);
 			if (map()->map[i][j] == '.')
 			{
 				if (!check_char(i, j))
