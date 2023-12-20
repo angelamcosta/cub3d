@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/15 18:06:33 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/20 16:54:21 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include <fcntl.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# define ESC 65307
+# define IMG_SIZE 64
+# define WIDTH 640
+# define HEIGHT 640
+# define COLOR 0xFF000
 
 typedef struct s_map
 {
@@ -37,6 +45,26 @@ typedef struct s_win
 	void	*mlx;
 	void	*mlx_win;
 }			t_win;
+
+typedef struct s_img
+{
+	int		floor;
+	int		ceiling;
+	void	*north;
+	void	*south;
+	void	*east;
+	void	*west;
+}			t_img;
+
+typedef struct s_line
+{
+	int		x;
+	int		y;
+	int		y0;
+	int		y1;
+	int		tex_x;
+	int		tex_y;
+}			t_line;
 
 // flood_fill
 void		set_row_col(void);
@@ -67,10 +95,21 @@ void		save_rgb(char **rgb, char pos);
 int			is_texture(char *pos);
 int			check_textures(char *filename);
 int			save_textures(char *pos, char *texture);
+// win general
+void		convert_rgb(void);
+int			encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
+// hooks
+int			keyhooks(int keycode);
+// structs
+void		set_images(void);
+int			render_rect(void);
 // general
-void		init_vars(void);
-// utils
 t_map		*map(void);
+t_win		*win(void);
+t_img		*img(void);
+void		init_vars(void);
+void		finish_execution(void);
+// utils
 void		clean_mallocs(void);
 int			get_flag(char *line);
 void		free_dptr(char **str);
