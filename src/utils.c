@@ -6,24 +6,16 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:17:23 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/01 16:13:11 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/20 14:57:53 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-t_map	*map(void);
 void	clean_mallocs(void);
 int		get_flag(char *line);
 void	free_dptr(char **str);
 char	*ft_strjoin_char(char *str, char c);
-
-t_map	*map(void)
-{
-	static t_map	map;
-
-	return (&map);
-}
 
 void	clean_mallocs(void)
 {
