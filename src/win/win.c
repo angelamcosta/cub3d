@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 16:02:22 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/20 16:48:42 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/20 17:47:22 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void	convert_rgb(void)
 	ceiling[0] = ft_atoi(map()->ceiling[0]);
 	ceiling[1] = ft_atoi(map()->ceiling[1]);
 	ceiling[2] = ft_atoi(map()->ceiling[2]);
-	(img()->ceiling) = encode_rgb(ceiling[0], ceiling[1], ceiling[2]);
-	(img()->floor) = encode_rgb(floor[0], floor[1], floor[2]);
+	(win()->ceiling) = encode_rgb(ceiling[0], ceiling[1], ceiling[2]);
+	(win()->floor) = encode_rgb(floor[0], floor[1], floor[2]);
 }
