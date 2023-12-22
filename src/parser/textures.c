@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:23:02 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/15 18:08:17 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 13:18:05 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	check_textures(char *filename)
 // 	return (1);
 // }
 
-// this should return error if there are already allocated values in the texture pos
 int	save_textures(char *pos, char *texture)
 {
 	if (!ft_strncmp(pos, "NO", 2) && !map()->no)

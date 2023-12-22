@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:02:13 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/20 15:11:53 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 13:17:20 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,3 @@ int	keyhooks(int keycode)
 		finish_execution();
 	return (0);
 }
-

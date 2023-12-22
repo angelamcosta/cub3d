@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:32:40 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/22 13:09:51 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 15:55:32 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	render(void)
 {
 	if (win()->mlx_win == NULL)
 		return (1);
+	while (pos()->x < WIDTH)
+		raycaster();
 	paint_background();
 	mlx_put_image_to_window(win()->mlx, win()->mlx_win, win()->bg.mlx_img,
 		0, 0);
