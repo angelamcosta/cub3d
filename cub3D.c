@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/20 16:53:29 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 12:57:46 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ int	main(int argc, char **argv)
 	set_row_col();
 	if (!is_map_closed() || !is_valid_path())
 		return (write(1, "error\n", 7));
+	convert_rgb();
 	win()->mlx = mlx_init();
 	(win()->mlx_win) = mlx_new_window(win()->mlx, WIDTH, HEIGHT, "cub3D");
-	render_rect();
-	// mlx_pixel_put(win()->mlx, win()->mlx_win, x, y, color);
+	(win()->bg.mlx_img) = mlx_new_image(win()->mlx, WIDTH, HEIGHT);
+	(win()->bg.addr) = mlx_get_data_addr(win()->bg.mlx_img,
+		&win()->bg.bpp, &win()->bg.line_len, &win()->bg.endian);
+	mlx_loop_hook(win()->mlx, &render, win());
 	mlx_hook(win()->mlx_win, 2, 1L << 0, keyhooks, win);
 	mlx_loop(win()->mlx);
 	return (0);

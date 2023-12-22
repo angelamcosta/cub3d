@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/22 13:13:02 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 15:59:37 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,26 @@
 
 typedef struct s_pos
 {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
+	int		x;
+	int		hit;
+	int		side;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	double	cam_x;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
 }			t_pos;
 
 typedef struct s_img
@@ -113,6 +127,8 @@ void		save_rgb(char **rgb, char pos);
 int			is_texture(char *pos);
 int			check_textures(char *filename);
 int			save_textures(char *pos, char *texture);
+// raycaster
+void		raycaster(void);
 // win general
 void		convert_rgb(void);
 int			encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
@@ -128,12 +144,13 @@ void		set_images(void);
 t_map		*map(void);
 t_win		*win(void);
 t_img		*img(void);
+t_pos		*pos(void);
 void		init_vars(void);
-void		finish_execution(void);
 // utils
 void		clean_mallocs(void);
 int			get_flag(char *line);
 void		free_dptr(char **str);
+void		finish_execution(void);
 char		*ft_strjoin_char(char *str, char c);
 
 #endif
