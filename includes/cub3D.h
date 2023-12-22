@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/20 16:54:21 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 13:13:02 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 # include "../mlx/mlx.h"
 # include "get_next_line.h"
 # include "libft.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
 # include <fcntl.h>
+# include <math.h>
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -24,7 +27,25 @@
 # define IMG_SIZE 64
 # define WIDTH 640
 # define HEIGHT 640
-# define COLOR 0xFF000
+
+typedef struct s_pos
+{
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+}			t_pos;
+
+typedef struct s_img
+{
+	void	*mlx_img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}			t_img;
 
 typedef struct s_map
 {
@@ -42,19 +63,16 @@ typedef struct s_map
 
 typedef struct s_win
 {
-	void	*mlx;
-	void	*mlx_win;
-}			t_win;
-
-typedef struct s_img
-{
 	int		floor;
 	int		ceiling;
+	void	*mlx;
+	void	*mlx_win;
 	void	*north;
 	void	*south;
 	void	*east;
 	void	*west;
-}			t_img;
+	t_img	bg;
+}			t_win;
 
 typedef struct s_line
 {
@@ -100,9 +118,12 @@ void		convert_rgb(void);
 int			encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
 // hooks
 int			keyhooks(int keycode);
+// imgs
+int			render(void);
+int			paint_background(void);
+void		img_pix_put(t_img *img, int x, int y, int color);
 // structs
 void		set_images(void);
-int			render_rect(void);
 // general
 t_map		*map(void);
 t_win		*win(void);
