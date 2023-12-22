@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:17:23 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/20 14:57:53 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/22 15:59:58 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	clean_mallocs(void);
 int		get_flag(char *line);
 void	free_dptr(char **str);
+void	finish_execution(void);
 char	*ft_strjoin_char(char *str, char c);
 
 void	clean_mallocs(void)
@@ -63,4 +64,13 @@ char	*ft_strjoin_char(char *str, char c)
 	joined[i++] = c;
 	joined[i] = '\0';
 	return (joined);
+}
+
+void	finish_execution(void)
+{
+	mlx_destroy_window(win()->mlx, win()->mlx_win);
+	mlx_destroy_image(win()->mlx, win()->bg.mlx_img);
+	mlx_destroy_display(win()->mlx);
+	clean_mallocs();
+	exit(0);
 }
