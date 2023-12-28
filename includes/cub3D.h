@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/22 15:59:37 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/28 20:33:16 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
+# define NORTH 1
+# define SOUTH 2
+# define EAST 3
+# define WEST 4
 # define ESC 65307
 # define IMG_SIZE 64
 # define WIDTH 640
@@ -38,14 +42,19 @@ typedef struct s_pos
 	int		step_x;
 	int		step_y;
 	double	cam_x;
+	double	cam_y;
 	double	pos_x;
 	double	pos_y;
 	double	dir_x;
 	double	dir_y;
+	double	wall_x;
 	double	plane_x;
 	double	plane_y;
+	double	draw_end;
 	double	ray_dir_x;
 	double	ray_dir_y;
+	double	draw_start;
+	double	line_height;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
@@ -58,6 +67,8 @@ typedef struct s_img
 	char	*addr;
 	int		bpp;
 	int		line_len;
+	int		width;
+	int		height;
 	int		endian;
 }			t_img;
 
@@ -81,11 +92,10 @@ typedef struct s_win
 	int		ceiling;
 	void	*mlx;
 	void	*mlx_win;
-	void	*north;
-	void	*south;
-	void	*east;
-	void	*west;
-	t_img	bg;
+	t_img	north;
+	t_img	south;
+	t_img	east;
+	t_img	west;
 }			t_win;
 
 typedef struct s_line
@@ -127,17 +137,19 @@ void		save_rgb(char **rgb, char pos);
 int			is_texture(char *pos);
 int			check_textures(char *filename);
 int			save_textures(char *pos, char *texture);
+// imgs
+int			render(void);
+void		init_texture(void);
+void		img_pix_put(int x, int y, int rgb);
 // raycaster
 void		raycaster(void);
+// scaling
+void		img_scaling(void);
 // win general
 void		convert_rgb(void);
 int			encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
 // hooks
 int			keyhooks(int keycode);
-// imgs
-int			render(void);
-int			paint_background(void);
-void		img_pix_put(t_img *img, int x, int y, int color);
 // structs
 void		set_images(void);
 // general
@@ -145,7 +157,7 @@ t_map		*map(void);
 t_win		*win(void);
 t_img		*img(void);
 t_pos		*pos(void);
-void		init_vars(void);
+t_line		*line(void);
 // utils
 void		clean_mallocs(void);
 int			get_flag(char *line);
