@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:22:21 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/22 15:59:54 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/28 19:05:32 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_map	*map(void);
 t_win	*win(void);
 t_img	*img(void);
 t_pos	*pos(void);
-void	init_vars(void);
+t_line	*line(void);
 
 t_map	*map(void)
 {
@@ -46,9 +46,9 @@ t_pos	*pos(void)
 	return (&pos);
 }
 
-void	init_vars(void)
+t_line	*line(void)
 {
-	map()->pos[0] = '-';
-	map()->pos[1] = '-';
-	map()->pos[2] = '-';
+	static t_line	line;
+
+	return (&line);
 }
