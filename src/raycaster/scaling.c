@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 18:57:58 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/28 20:39:53 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/29 19:11:15 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void		img_scaling(void);
 static void	paint_texture(void);
 static void	paint_line(int color);
+static void	texture_on_img(t_img *wall);
+static void	draw_texture_image(t_img *img);
 
 void	img_scaling(void)
 {
@@ -28,19 +30,18 @@ void	img_scaling(void)
 	paint_line(win()->floor);
 }
 
-void	paint_texture(void)
-
+static void	paint_texture(void)
 {
 	t_img	*img;
 	int		tex_x;
 
-	img = &win()->north;
+	img = win()->north;
 	if (pos()->side == EAST)
-		img = &win()->east;
+		img = win()->east;
 	else if (pos()->side == WEST)
-		img = &win()->west;
+		img = win()->west;
 	else if (pos()->side == SOUTH)
-		img = &win()->south;
+		img = win()->south;
 	tex_x = (int)(pos()->wall_x * (double)img->width);
 	if ((pos()->side == WEST || pos()->side == EAST) && pos()->ray_dir_x > 0)
 		tex_x = img->width - tex_x - 1;
@@ -53,7 +54,7 @@ void	paint_texture(void)
 	draw_texture_image(img);
 }
 
-void	paint_line(int color)
+static void	paint_line(int color)
 {
 	int	i;
 	int	j;
@@ -73,4 +74,47 @@ void	paint_line(int color)
 		while (i < j)
 			img_pix_put(line()->x, i++, color);
 	}
+}
+
+static void	draw_texture_image(t_img *img)
+{
+	int	y;
+
+	if (line()->y0 < line()->y1)
+	{
+		line()->y = line()->y0;
+		y = line()->y1;
+	}
+	else
+	{
+		line()->y = line()->y1;
+		y = line()->y0;
+	}
+	if (line()->y >= 0)
+	{
+		while (line()->y < y)
+		{
+			texture_on_img(img);
+			line()->y++;
+		}
+	}
+}
+
+static void	texture_on_img(t_img *wall)
+{
+	int	scale;
+
+	scale = line()->y * wall->line_len - (HEIGHT * pos()->cam_y)
+		* wall->line_len / 2 + pos()->line_height * wall->line_len / 2;
+	line()->tex_y = ((scale * wall->height) / pos()->line_height)
+		/ wall->line_len;
+	win()->mlx_img->addr[line()->y * win()->mlx_img->line_len + line()->x
+		* win()->mlx_img->bpp / 8] = wall->addr[line()->tex_y * wall->line_len
+		+ line()->tex_x * (wall->bpp / 8)];
+	win()->mlx_img->addr[line()->y * win()->mlx_img->line_len + line()->x
+		* (win()->mlx_img->bpp / 8) + 1] = wall->addr[line()->tex_y
+		* wall->line_len + line()->tex_x * (wall->bpp / 8) + 1];
+	win()->mlx_img->addr[line()->y * win()->mlx_img->line_len + line()->x
+		* (win()->mlx_img->bpp / 8) + 2] = wall->addr[line()->tex_y
+		* wall->line_len + line()->tex_x * (wall->bpp / 8) + 2];
 }

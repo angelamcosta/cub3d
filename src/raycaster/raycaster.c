@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 12:45:48 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/28 20:28:19 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/29 18:53:31 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	raycaster(void)
 	init_raycasting();
 	step();
 	dda();
+	calculate_height();
+	img_scaling();
 	pos()->x++;
 }
 
