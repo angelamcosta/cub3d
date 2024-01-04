@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:17:23 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/28 20:21:13 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/29 19:28:47 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ char	*ft_strjoin_char(char *str, char c);
 
 void	clean_mallocs(void)
 {
+	free(win()->north);
+	free(win()->south);
+	free(win()->east);
+	free(win()->west);
 	free_dptr(map()->map);
 	free(map()->no);
 	free(map()->so);
@@ -70,6 +74,11 @@ void	finish_execution(void)
 {
 	mlx_destroy_window(win()->mlx, win()->mlx_win);
 	mlx_destroy_display(win()->mlx);
+	mlx_destroy_image(win()->mlx, win()->mlx_img);
+	mlx_destroy_image(win()->mlx, win()->north);
+	mlx_destroy_image(win()->mlx, win()->south);
+	mlx_destroy_image(win()->mlx, win()->east);
+	mlx_destroy_image(win()->mlx, win()->west);
 	clean_mallocs();
 	exit(0);
 }
