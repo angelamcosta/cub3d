@@ -19,11 +19,10 @@ static void	create_texture_img(char *path, t_img *img);
 
 int	render(void)
 {
-	if (win()->mlx_win == NULL)
-		return (1);
 	init_texture();
 	while (pos()->x < WIDTH)
 		raycaster();
+	mlx_put_image_to_window(win()->mlx, win()->mlx_win, win()->mlx_img->mlx_img, 0, 0);
 	return (0);
 }
 
@@ -61,8 +60,8 @@ void	init_texture(void)
 	ft_bzero(win()->south, sizeof(t_img));
 	create_texture_img(map()->so, win()->south);
 	win()->east = (t_img *)malloc(sizeof(t_img));
-	create_texture_img(map()->ea, win()->east);
 	ft_bzero(win()->east, sizeof(t_img));
+	create_texture_img(map()->ea, win()->east);
 	win()->west = (t_img *)malloc(sizeof(t_img));
 	ft_bzero(win()->west, sizeof(t_img));
 	create_texture_img(map()->we, win()->west);

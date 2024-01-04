@@ -20,15 +20,15 @@ char	*ft_strjoin_char(char *str, char c);
 
 void	clean_mallocs(void)
 {
+	free(map()->no);
+	free(map()->so);
+	free(map()->ea);
+	free(map()->we);
 	free(win()->north);
 	free(win()->south);
 	free(win()->east);
 	free(win()->west);
 	free_dptr(map()->map);
-	free(map()->no);
-	free(map()->so);
-	free(map()->ea);
-	free(map()->we);
 }
 
 int	get_flag(char *line)
@@ -72,13 +72,13 @@ char	*ft_strjoin_char(char *str, char c)
 
 void	finish_execution(void)
 {
+	mlx_destroy_image(win()->mlx, win()->mlx_img->mlx_img);
+	mlx_destroy_image(win()->mlx, win()->east->mlx_img);
+	mlx_destroy_image(win()->mlx, win()->west->mlx_img);
+	mlx_destroy_image(win()->mlx, win()->north->mlx_img);
+	mlx_destroy_image(win()->mlx, win()->south->mlx_img);
 	mlx_destroy_window(win()->mlx, win()->mlx_win);
 	mlx_destroy_display(win()->mlx);
-	mlx_destroy_image(win()->mlx, win()->mlx_img);
-	mlx_destroy_image(win()->mlx, win()->north);
-	mlx_destroy_image(win()->mlx, win()->south);
-	mlx_destroy_image(win()->mlx, win()->east);
-	mlx_destroy_image(win()->mlx, win()->west);
 	clean_mallocs();
 	exit(0);
 }

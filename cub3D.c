@@ -50,8 +50,14 @@ int	main(int argc, char **argv)
 	convert_rgb();
 	win()->mlx = mlx_init();
 	(win()->mlx_win) = mlx_new_window(win()->mlx, WIDTH, HEIGHT, "cub3D");
-	mlx_loop_hook(win()->mlx, &render, win());
+	if (win()->mlx_win == NULL)
+	{
+		finish_execution();
+		return (0);
+	}
 	mlx_hook(win()->mlx_win, 2, 1L << 0, keyhooks, win);
+	mlx_loop_hook(win()->mlx, &render, win());
 	mlx_loop(win()->mlx);
+	finish_execution();
 	return (0);
 }

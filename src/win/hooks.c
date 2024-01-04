@@ -17,6 +17,9 @@ int	keyhooks(int keycode);
 int	keyhooks(int keycode)
 {
 	if (keycode == ESC)
+	{
 		finish_execution();
+		exit(0);
+	}
 	return (0);
 }

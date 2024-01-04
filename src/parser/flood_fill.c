@@ -44,7 +44,8 @@ void	set_row_col(void)
 			{
 				new_row = ft_strjoin_char(map()->map[i], ' ');
 				free(map()->map[i]);
-				map()->map[i] = new_row;
+				map()->map[i] = ft_strdup(new_row);
+				free(new_row);
 			}
 		}
 	}

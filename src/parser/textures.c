@@ -22,8 +22,6 @@ int	is_texture(char *pos)
 		|| !ft_strncmp(pos, "EA", 2) || !ft_strncmp(pos, "WE", 2));
 }
 
-// TODO : - Check extension needs to consider relative/absolute paths
-
 int	check_textures(char *filename)
 {
 	if (!check_extension(&filename[1], ".xpm"))

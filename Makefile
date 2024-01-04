@@ -1,7 +1,7 @@
 NAME	=	cub3D
 
 CC		=	cc
-CFLAGS	=	-Wall -Werror -Wextra -Imlx -g -fsanitize=address
+CFLAGS	=	-Wall -Werror -Wextra -Imlx -g #-fsanitize=address,undefined
 LIBS	=	-L $(MLX) -lmlx -lXext -lX11 -L $(LIBFT) -lft
 RM		=	rm -rf
 
@@ -54,6 +54,6 @@ fclean:		clean
 			@$(RM) $(NAME)
 
 re:			fclean all
-			valgrind $(VAL) ./$(NAME)
+			valgrind $(VAL) ./$(NAME) maps/good/bestmap.cub
 
 .PHONY:		all clean fclean re
