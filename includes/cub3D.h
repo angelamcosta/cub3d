@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/28 20:33:16 by anlima           ###   ########.fr       */
+/*   Updated: 2023/12/29 19:09:00 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ typedef struct s_win
 	int		ceiling;
 	void	*mlx;
 	void	*mlx_win;
-	t_img	north;
-	t_img	south;
-	t_img	east;
-	t_img	west;
+	t_img	*north;
+	t_img	*south;
+	t_img	*east;
+	t_img	*west;
+	t_img	*mlx_img;
 }			t_win;
 
 typedef struct s_line
