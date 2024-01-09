@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/29 19:09:00 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/07 18:22:28 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,16 @@ typedef struct s_img
 
 typedef struct s_map
 {
-	char	**map;
 	int		rows;
 	int		cols;
+	int		pos[3];
 	char	*no;
 	char	*so;
 	char	*ea;
 	char	*we;
 	char	*floor[3];
 	char	*ceiling[3];
-	char	pos[3];
+	char	**map;
 }			t_map;
 
 typedef struct s_win
@@ -141,6 +141,7 @@ int			save_textures(char *pos, char *texture);
 // imgs
 int			render(void);
 void		init_texture(void);
+void		init_instance(void);
 void		img_pix_put(int x, int y, int rgb);
 // raycaster
 void		raycaster(void);

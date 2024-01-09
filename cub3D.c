@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/28 20:21:09 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/07 19:03:35 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,34 @@ void	test_maps(void)
 	printf("DEBUG: rows => %i\tcols => %i\n", map()->rows, map()->cols);
 }
 
+void	init_pos(void)
+{
+	pos()->pos_x = map()->pos[2];
+	pos()->pos_y = map()->pos[1];
+	if (map()->pos[0] == 'N')
+	{
+		pos()->plane_x = 0.66;
+        pos()->dir_y = -1;
+	}
+	else if (map()->pos[0] == 'S')
+	{
+		pos()->plane_x = -0.66;
+    	pos()->dir_y = 1;
+	}
+	else if (map()->pos[0] == 'W')
+	{
+		pos()->plane_y = -0.66;
+    	pos()->dir_x = -1;
+	}
+	else if (map()->pos[0] == 'E')
+	{
+		pos()->plane_y = 0.66;
+    	pos()->dir_x = 1;
+	}
+}
+
+// TODO : - Replace the use of static func by using var
+
 int	main(int argc, char **argv)
 {
 	init_vars();
@@ -48,13 +76,8 @@ int	main(int argc, char **argv)
 	if (!is_map_closed() || !is_valid_path())
 		return (write(1, "error\n", 7));
 	convert_rgb();
-	win()->mlx = mlx_init();
-	(win()->mlx_win) = mlx_new_window(win()->mlx, WIDTH, HEIGHT, "cub3D");
-	if (win()->mlx_win == NULL)
-	{
-		finish_execution();
-		return (0);
-	}
+	init_instance();
+	init_pos();
 	mlx_hook(win()->mlx_win, 2, 1L << 0, keyhooks, win);
 	mlx_loop_hook(win()->mlx, &render, win());
 	mlx_loop(win()->mlx);

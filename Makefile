@@ -42,7 +42,7 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 			@make -C $(MLX)
 			@make -C $(LIBFT)
-			@$(CC) $(CFLAGS) $(SRC) -o $@ $(LIBS)
+			@$(CC) $(CFLAGS) $(SRC) -lm -o $@ $(LIBS)
 
 clean:
 			@make clean -C $(MLX)
