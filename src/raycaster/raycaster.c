@@ -3,115 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 12:45:48 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/07 19:02:52 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:23:37 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void		raycaster(void);
-static void	dda(void);
-static void	step(void);
-static void	init_raycasting(void);
-static void	calculate_height(void);
+void	raycaster(t_pos *pos);
+static void	dda(t_pos *pos);
+static void	step(t_pos *pos, t_player *player);
+static void	init_raycasting(t_pos *pos, t_player *player);
+static void	calculate_height(t_pos *pos, t_player *player);
 
-// draw those textures
-void	raycaster(void)
+void	raycaster(t_pos *pos)
 {
-	init_raycasting();
-	step();
-	dda();
-	calculate_height();
-	img_scaling();
-	pos()->x++;
+	t_player	*player;
+
+	player = win()->player;
+	init_raycasting(pos, player);
+	step(pos, player);
+	dda(pos);
+	calculate_height(pos, player);
+	img_scaling(pos, player);
+	pos->curr_x++;
 }
 
-static void	init_raycasting(void)
+static void	init_raycasting(t_pos *pos, t_player *player)
 {
-	pos()->hit = 0;
-	pos()->cam_x = (2 * pos()->x) / (double)(WIDTH)-1;
-	pos()->ray_dir_x = pos()->dir_x + pos()->plane_x * pos()->cam_x;
-	pos()->ray_dir_y = pos()->dir_y + pos()->plane_y * pos()->cam_x;
-	pos()->map_x = (int)(pos()->pos_x);
-	pos()->map_y = (int)(pos()->pos_y);
-	pos()->delta_dist_x = fabs(1 / pos()->ray_dir_x);
-	pos()->delta_dist_y = fabs(1 / pos()->ray_dir_y);
+	pos->cam_x = (2 * pos->curr_x) / (double) WIDTH - 1;
+	pos->ray_dir_x = player->dir_vect.x + player->cam_plane_vect.x * pos->cam_x;
+	pos->ray_dir_y = player->dir_vect.y + player->cam_plane_vect.y * pos->cam_x;
+	pos->map_x = (int) player->pos.x;
+	pos->map_y = (int) player->pos.y;
+	pos->delta_dist_x = fabs(1 / pos->ray_dir_x);
+	pos->delta_dist_y = fabs(1 / pos->ray_dir_y);
+	pos->hit = 0;
 }
 
-static void	step(void)
+static void	step(t_pos *pos, t_player *player)
 {
-	if (pos()->ray_dir_x < 0)
+	if (pos->ray_dir_x < 0)
 	{
-		pos()->step_x = -1;
-		pos()->side_dist_x = (pos()->pos_x - pos()->map_x)
-			* pos()->delta_dist_x;
+		pos->step_x = -1;
+		pos->side_dist_x = (player->pos.x - pos->map_x) * pos->delta_dist_x;
 	}
 	else
 	{
-		pos()->step_x = 1;
-		pos()->side_dist_x = (pos()->map_x + 1.0 - pos()->pos_x)
-			* pos()->delta_dist_x;
+		pos->step_x = 1;
+		pos->side_dist_x = (pos->map_x + 1.0 - player->pos.x)
+			* pos->delta_dist_x;
 	}
-	if (pos()->ray_dir_y < 0)
+	if (pos->ray_dir_y < 0)
 	{
-		pos()->step_y = -1;
-		pos()->side_dist_y = (pos()->pos_y - pos()->map_y)
-			* pos()->delta_dist_y;
+		pos->step_y = -1;
+		pos->side_dist_y = (player->pos.y - pos->map_y) * pos->delta_dist_y;
 	}
 	else
 	{
-		pos()->step_y = 1;
-		pos()->side_dist_y = (pos()->map_y + 1.0 - pos()->pos_y)
-			* pos()->delta_dist_y;
+		pos->step_y = 1;
+		pos->side_dist_y = (pos->map_y + 1.0 - player->pos.y)
+			* pos->delta_dist_y;
 	}
 }
 
-static void	dda(void)
+static void	dda(t_pos *pos)
 {
-	while (!pos()->hit)
+	while (!pos->hit)
 	{
-		if (pos()->side_dist_x < pos()->side_dist_y)
+		if (pos->side_dist_x < pos->side_dist_y)
 		{
-			pos()->side_dist_x += pos()->delta_dist_x;
-			pos()->map_x += pos()->step_x;
-			if (pos()->step_x == -1)
-				pos()->side = EAST;
+			pos->side_dist_x += pos->delta_dist_x;
+			pos->map_x += pos->step_x;
+			if (pos->step_x == -1)
+				pos->side = EAST;
 			else
-				pos()->side = WEST;
+				pos->side = WEST;
 		}
 		else
 		{
-			pos()->side_dist_y += pos()->delta_dist_y;
-			pos()->map_y += pos()->step_y;
-			if (pos()->step_y == -1)
-				pos()->side = SOUTH;
+			pos->side_dist_y += pos->delta_dist_y;
+			pos->map_y += pos->step_y;
+			if (pos->step_y == -1)
+				pos->side = SOUTH;
 			else
-				pos()->side = NORTH;
+				pos->side = NORTH;
 		}
-		printf("DEBUG: pos x => %i\ty => %i\n", (int)pos()->pos_x,
-				(int)pos()->pos_y);
-		printf("DEBUG: map x => %i\ty => %i\n", pos()->map_x, pos()->map_y);
-		if (map()->map[pos()->map_y][pos()->map_x] == '1')
-			pos()->hit = 1;
+		if (map()->map[pos->map_y][pos->map_x] == '1')
+			pos->hit = 1;
 	}
 }
 
-static void	calculate_height(void)
+static void	calculate_height(t_pos *pos, t_player *player)
 {
-	if (pos()->side == WEST || pos()->side == EAST)
-		pos()->wall_x = ((double)pos()->map_x - pos()->pos_x + (1
-					- pos()->step_x) / 2) / pos()->ray_dir_x;
+	if (pos->side == WEST || pos->side == EAST)
+		pos->prep_wall_dist = ((double) pos->map_x - player->pos.x
+				+ (1 - pos->step_x) / 2) / pos->ray_dir_x;
 	else
-		pos()->wall_x = ((double)pos()->map_y - pos()->pos_y + (1
-					- pos()->step_y) / 2) / pos()->ray_dir_y;
-	pos()->line_height = HEIGHT / pos()->wall_x;
-	pos()->draw_start = -pos()->line_height / 2 + ((HEIGHT / 2) * pos()->cam_y);
-	if (pos()->draw_start <= 0)
-		pos()->draw_start = 0;
-	pos()->draw_end = pos()->line_height / 2 + ((HEIGHT / 2) * pos()->cam_y);
-	if (pos()->draw_end >= HEIGHT)
-		pos()->draw_end = HEIGHT - 1;
+		pos->prep_wall_dist = ((double) pos->map_y - player->pos.y
+				+ (1 - pos->step_y) / 2) / pos->ray_dir_y;
+	pos->line_height = HEIGHT / pos->prep_wall_dist;
+	pos->draw_start = -(pos->line_height / 2) + ((HEIGHT / 2) * player->cam_height);
+	if (pos->draw_start <= 0)
+		pos->draw_start = 0;
+	pos->draw_end = pos->line_height / 2 + ((HEIGHT / 2) * player->cam_height);
+	if (pos->draw_end >= HEIGHT)
+		pos->draw_end = HEIGHT - 1;
 }
+
+	// printf("DEBUG: prep_wall_dist => %f\n", pos->prep_wall_dist);
+	// printf("DEBUG: map_x => %d, map_y => %d\n", pos->map_x, pos->map_y);
+    // printf("DEBUG: player_pos_x => %f, player_pos_y => %f\n", player->pos.x, player->pos.y);
+    // printf("DEBUG: step_x => %d, step_y => %d\n", pos->step_x, pos->step_y);
+    // printf("DEBUG: ray_dir_x => %f, ray_dir_y => %f\n", pos->ray_dir_x, pos->ray_dir_y);
+	// printf("DEBUG: draw_start => %d\n", pos->draw_start);

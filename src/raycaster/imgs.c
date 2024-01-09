@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   imgs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:32:40 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/07 18:36:55 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:12:39 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@ static void create_texture_img(char *path, t_img *img);
 
 int render(void)
 {
-	while (pos()->x < WIDTH)
-		raycaster();
-	mlx_put_image_to_window(win()->mlx, win()->mlx_win, win()->mlx_img->mlx_img,
-							0, 0);
+	t_pos	*pos;
+
+	pos = (t_pos *)malloc(sizeof(t_pos));
+	ft_bzero(pos, sizeof(t_pos));
+	while (pos->curr_x < WIDTH)
+		raycaster(pos);
+	mlx_put_image_to_window(win()->mlx, win()->mlx_win,
+		win()->mlx_img->mlx_img, 0, 0);
+	free(pos);
+	// add event executor
 	return (0);
 }
 
@@ -44,25 +50,20 @@ void img_pix_put(int x, int y, int rgb)
 void init_instance(void)
 {
 	win()->mlx = mlx_init();
-	if (!win()->mlx)
-	{
-		printf("Failed to create mlx instance!\n");
-		finish_execution();
-		exit(1);
-	}
 	(win()->mlx_win) = mlx_new_window(win()->mlx, WIDTH, HEIGHT, "cub3D");
-	if (!win()->mlx_win)
-	{
-		printf("Failed to create mlx window!\n");
-		finish_execution();
-		exit(1);
-	}
 	win()->mlx_img = (t_img *)malloc(sizeof(t_img));
+	ft_bzero(win()->mlx_img, sizeof(t_img));
+	win()->mlx_img->mlx_img = mlx_new_image(win()->mlx, WIDTH, HEIGHT);
+	win()->mlx_img->width = WIDTH;
+	win()->mlx_img->height = HEIGHT;
+	win()->mlx_img->addr = mlx_get_data_addr(win()->mlx_img->mlx_img,
+											 &win()->mlx_img->bpp,
+											 &win()->mlx_img->line_len,
+											 &win()->mlx_img->endian);
 	win()->north = (t_img *)malloc(sizeof(t_img));
 	win()->south = (t_img *)malloc(sizeof(t_img));
 	win()->east = (t_img *)malloc(sizeof(t_img));
 	win()->west = (t_img *)malloc(sizeof(t_img));
-	ft_bzero(win()->mlx_img, sizeof(t_img));
 	ft_bzero(win()->north, sizeof(t_img));
 	ft_bzero(win()->east, sizeof(t_img));
 	ft_bzero(win()->west, sizeof(t_img));
@@ -75,7 +76,6 @@ static void create_texture_img(char *path, t_img *img)
 	int width;
 	int height;
 
-	printf("DEBUG: %s\n", path);
 	img->mlx_img = mlx_xpm_file_to_image(win()->mlx, path, &width, &height);
 	if (!img->mlx_img)
 	{
@@ -90,19 +90,6 @@ static void create_texture_img(char *path, t_img *img)
 
 void init_texture(void)
 {
-	win()->mlx_img->mlx_img = mlx_new_image(win()->mlx, WIDTH, HEIGHT);
-	if (!win()->mlx_img->mlx_img)
-	{
-		printf("Error initializing mlx image!\n");
-		finish_execution();
-		exit(1);
-	}
-	win()->mlx_img->width = WIDTH;
-	win()->mlx_img->height = HEIGHT;
-	win()->mlx_img->addr = mlx_get_data_addr(win()->mlx_img->mlx_img,
-											 &win()->mlx_img->bpp,
-											 &win()->mlx_img->line_len,
-											 &win()->mlx_img->endian);
 	create_texture_img(map()->no, win()->north);
 	create_texture_img(map()->so, win()->south);
 	create_texture_img(map()->ea, win()->east);
