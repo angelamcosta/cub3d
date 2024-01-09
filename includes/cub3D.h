@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/07 18:22:28 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:54:30 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,42 @@
 # define WIDTH 640
 # define HEIGHT 640
 
+typedef struct s_coord
+{
+	double	x;
+	double	y;
+}				t_coord;
+
+typedef struct s_player
+{
+	t_coord	pos;
+	t_coord	dir_vect;
+	t_coord	cam_plane_vect;
+	double	cam_height;
+	double	speed;
+	double	sens;
+}	t_player;
+
 typedef struct s_pos
 {
-	int		x;
 	int		hit;
 	int		side;
 	int		map_x;
 	int		map_y;
+	int		curr_x;
 	int		step_x;
 	int		step_y;
+	int		draw_end;
+	int		draw_start;
+	int		line_height;
 	double	cam_x;
-	double	cam_y;
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	wall_x;
-	double	plane_x;
-	double	plane_y;
-	double	draw_end;
 	double	ray_dir_x;
 	double	ray_dir_y;
-	double	draw_start;
-	double	line_height;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
+	double	prep_wall_dist;
 }			t_pos;
 
 typedef struct s_img
@@ -88,15 +97,16 @@ typedef struct s_map
 
 typedef struct s_win
 {
-	int		floor;
-	int		ceiling;
-	void	*mlx;
-	void	*mlx_win;
-	t_img	*north;
-	t_img	*south;
-	t_img	*east;
-	t_img	*west;
-	t_img	*mlx_img;
+	int			floor;
+	int			ceiling;
+	void		*mlx;
+	void		*mlx_win;
+	t_img		*north;
+	t_img		*south;
+	t_img		*east;
+	t_img		*west;
+	t_img		*mlx_img;
+	t_player	*player;
 }			t_win;
 
 typedef struct s_line
@@ -143,10 +153,13 @@ int			render(void);
 void		init_texture(void);
 void		init_instance(void);
 void		img_pix_put(int x, int y, int rgb);
+// player
+void     	add_player(void);
+void		set_camera(double d_y, double p_x, double p_y);
 // raycaster
-void		raycaster(void);
+void		raycaster(t_pos *pos);
 // scaling
-void		img_scaling(void);
+void		img_scaling(t_pos *pos, t_player *player);
 // win general
 void		convert_rgb(void);
 int			encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
@@ -157,9 +170,6 @@ void		set_images(void);
 // general
 t_map		*map(void);
 t_win		*win(void);
-t_img		*img(void);
-t_pos		*pos(void);
-t_line		*line(void);
 // utils
 void		clean_mallocs(void);
 int			get_flag(char *line);

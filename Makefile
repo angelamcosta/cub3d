@@ -25,6 +25,7 @@ SRC		=	cub3D.c \
 			$(FILES)/parser/rgb.c \
 			$(FILES)/parser/textures.c \
 			$(FILES)/raycaster/imgs.c \
+			$(FILES)/raycaster/player.c \
 			$(FILES)/raycaster/raycaster.c \
 			$(FILES)/raycaster/scaling.c \
 			$(FILES)/win/hooks.c \
