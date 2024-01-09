@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/07 19:03:35 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:53:58 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,17 @@ void	test_maps(void)
 
 void	init_pos(void)
 {
-	pos()->pos_x = map()->pos[2];
-	pos()->pos_y = map()->pos[1];
-	if (map()->pos[0] == 'N')
-	{
-		pos()->plane_x = 0.66;
-        pos()->dir_y = -1;
-	}
-	else if (map()->pos[0] == 'S')
-	{
-		pos()->plane_x = -0.66;
-    	pos()->dir_y = 1;
-	}
-	else if (map()->pos[0] == 'W')
-	{
-		pos()->plane_y = -0.66;
-    	pos()->dir_x = -1;
-	}
-	else if (map()->pos[0] == 'E')
-	{
-		pos()->plane_y = 0.66;
-    	pos()->dir_x = 1;
-	}
+	win()->player = (t_player *)malloc(sizeof(t_player));
+	win()->player->dir_vect.x = 0;
+	win()->player->dir_vect.y = 0;
+	win()->player->cam_plane_vect.x = 0;
+	win()->player->cam_plane_vect.y = 0;
+	win()->player->pos.x = 5;
+	win()->player->pos.y = 5;
+	win()->player->sens = 0.1;
+	win()->player->speed = 0.05;
+	win()->player->cam_height = 1.0;
+	add_player();
 }
 
 // TODO : - Replace the use of static func by using var
