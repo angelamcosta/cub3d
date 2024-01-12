@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   general.c                                          :+:      :+:    :+:   */
+/*   win.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 16:02:22 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/20 17:47:22 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:00:59 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void	convert_rgb(void)
 	ceiling[2] = ft_atoi(map()->ceiling[2]);
 	(win()->ceiling) = encode_rgb(ceiling[0], ceiling[1], ceiling[2]);
 	(win()->floor) = encode_rgb(floor[0], floor[1], floor[2]);
+	printf("ceiling => %i\tfloor => %i\n", win()->ceiling, win()->floor);
 }
