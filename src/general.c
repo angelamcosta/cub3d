@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   general.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:22:21 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/09 18:56:07 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/12 13:00:56 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-t_map		*map(void);
-t_win		*win(void);
+t_map	*map(void);
+t_pos	*pos(void);
+t_win	*win(void);
 
 t_map	*map(void)
 {
@@ -27,4 +28,11 @@ t_win	*win(void)
 	static t_win	win;
 
 	return (&win);
+}
+
+t_pos	*pos(void)
+{
+	static	t_pos	pos;
+	
+	return(&pos);
 }

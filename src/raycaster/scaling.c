@@ -3,129 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   scaling.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 18:57:58 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/09 21:31:39 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:23:06 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void		img_scaling(t_pos *pos, t_player *player);
-static void	paint_line(t_line *line, int color);
-static void	texture_on_img(t_line *line, t_pos *pos, t_img *wall);
-static void	paint_texture(t_line *line, t_pos *pos, double wall_x);
-static void	draw_texture_image(t_line *line, t_pos *pos, t_img *img);
+void	dda(void);
+void	step(void);
+void	prep_draw_line(void);
+void	camera_distance(void);
+t_img	*select_texture(void);
 
-void	img_scaling(t_pos *pos, t_player *player)
+void	camera_distance(void)
 {
-	t_line	*line;
-	double	wall_x;
-
-	line = malloc(sizeof (t_line));
-	ft_bzero(line, sizeof(t_line));
-	if (pos->side == WEST || pos->side == EAST)
-		wall_x = player->pos.y + pos->prep_wall_dist * pos->ray_dir_y;
+	if (pos()->side == 0)
+		pos()->prep_wall_dist = (pos()->side_dist.x - pos()->delta_dist.x);
 	else
-		wall_x = player->pos.x + pos->prep_wall_dist * pos->ray_dir_x;
-	wall_x -= floor(wall_x);
-	line->x = pos->curr_x;
-	if (map()->map[pos->map_y][pos->map_x] == '1')
-		paint_texture(line, pos,wall_x);
-	line->y0 = 0;
-	line->y1 = pos->draw_start;
-	paint_line(line, win()->ceiling);
-	line->y0 = HEIGHT;
-	line->y1 = pos->draw_end;
-	paint_line(line, win()->floor);
-	free(line);
+		pos()->prep_wall_dist = (pos()->side_dist.y - pos()->delta_dist.y);
 }
 
-static void	paint_line(t_line *line, int color)
+void	dda(void)
 {
-	int	i;
-	int	j;
-
-	if (line->y0 < line->y1)
+	while (pos()->hit == 0)
 	{
-		i = line->y0;
-		j = line->y1;
-	}
-	else
-	{
-		i = line->y1;
-		j = line->y0;
-	}
-	if (i >= 0)
-	{
-		while (i < j)
-			img_pix_put(line->x, i++, color);
+		if (pos()->side_dist.x < pos()->side_dist.y)
+		{
+			pos()->side_dist.x += pos()->delta_dist.x;
+			pos()->map_x += pos()->step_x;
+			pos()->side = 0;
+		}
+		else
+		{
+			pos()->side_dist.y += pos()->delta_dist.y;
+			pos()->map_y += pos()->step_y;
+			pos()->side = 1;
+		}
+		if (map()->map[pos()->map_y][pos()->map_x] == '1')
+			pos()->hit = 1;
 	}
 }
 
-static void	paint_texture(t_line *line, t_pos *pos, double wall_x)
+void	step(void)
 {
-	t_img	*img;
-	int		tex_x;
-
-	if (pos->side == EAST)
-		img = win()->east;
-	else if (pos->side == WEST)
-		img = win()->west;
-	else if (pos->side == NORTH)
-		img = win()->north;
-	else if (pos->side == SOUTH)
-		img = win()->south;
-	tex_x = (int)(wall_x * (double)img->width);
-	if ((pos->side == WEST || pos->side == EAST) && pos->ray_dir_x > 0)
-		tex_x = img->width - tex_x - 1;
-	else if ((pos->side == NORTH || pos->side == SOUTH) && pos->ray_dir_y < 0)
-		tex_x = img->width - tex_x - 1;
-	line->y0 = pos->draw_start;
-	line->y1 = pos->draw_end;
-	line->tex_x = tex_x;
-	draw_texture_image(line, pos, img);
-}
-
-static void	draw_texture_image(t_line *line, t_pos *pos, t_img *img)
-{
-	int	y_max;
-
-	if (line->y0 < line->y1)
+	if (pos()->ray_dir.x < 0)
 	{
-		line->y = line->y0;
-		y_max = line->y1;
+		pos()->step_x = -1;
+		pos()->side_dist.x = (pos()->pos.x - pos()->map_x)
+		* pos()->delta_dist.x;
 	}
 	else
 	{
-		line->y = line->y1;
-		y_max = line->y0;
+		pos()->step_x = 1;
+		pos()->side_dist.x = (pos()->map_x + 1.0 - pos()->pos.x)
+		* pos()->delta_dist.x;
 	}
-	if (line->y >= 0)
+	if (pos()->ray_dir.y < 0)
 	{
-		line->y--;
-		printf("y0 -> %i\ty1 -> %i\ty_max -> %i\ty => %i\n", line->y0, line->y1, y_max, line->y);
-		while (++line->y < y_max)
-			texture_on_img(line, pos, img);
+		pos()->step_y = -1;
+		pos()->side_dist.y = (pos()->pos.y - pos()->map_y)
+		* pos()->delta_dist.y;
+	}
+	else
+	{
+		pos()->step_y = 1;
+		pos()->side_dist.y = (pos()->map_y + 1.0 - pos()->pos.y)
+		* pos()->delta_dist.y;
 	}
 }
 
-static void	texture_on_img(t_line *line, t_pos *pos, t_img *wall)
+void	prep_draw_line(void)
 {
-	int	scale;
+	pos()->line_height = (int)(HEIGHT / pos()->prep_wall_dist);
+	//printf("DEBUG: prep_wall_dist => %f\n", pos()->prep_wall_dist);
+	pos()->draw_start = -(pos()->line_height) / 2 + (HEIGHT / 2);
+	if (pos()->draw_start < 0)
+		pos()->draw_start = 0;
+	pos()->draw_end = (pos()->line_height / 2) + (HEIGHT / 2);
+	if (pos()->draw_end >= HEIGHT)
+		pos()->draw_end = HEIGHT - 1;
+	if (pos()->side == 0)
+		pos()->wall_x = pos()->pos.y + pos()->prep_wall_dist * pos()->ray_dir.y;
+	else
+		pos()->wall_x = pos()->pos.x + pos()->prep_wall_dist * pos()->ray_dir.x;
+	pos()->wall_x -= floor((pos()->wall_x));
+	//printf("DEBUG: draw_start => %i\tdraw_end => %i\n", pos()->draw_start, pos()->draw_end);
+}
 
-	scale = line->y * wall->line_len - (HEIGHT * win()->player->cam_height)
-		* wall->line_len / 2 + pos->line_height * wall->line_len / 2;
-	line->tex_y = ((scale * wall->height) / pos->line_height)
-		/ wall->line_len;
-	win()->mlx_img->addr[line->y * win()->mlx_img->line_len + line->x
-		* win()->mlx_img->bpp / 8] = wall->addr[line->tex_y * wall->line_len
-		+ line->tex_x * (wall->bpp / 8)];
-	win()->mlx_img->addr[line->y * win()->mlx_img->line_len + line->x
-		* (win()->mlx_img->bpp / 8) + 1] = wall->addr[line->tex_y
-		* wall->line_len + line->tex_x * (wall->bpp / 8) + 1];
-	win()->mlx_img->addr[line->y * win()->mlx_img->line_len + line->x
-		* (win()->mlx_img->bpp / 8) + 2] = wall->addr[line->tex_y
-		* wall->line_len + line->tex_x * (wall->bpp / 8) + 2];
+t_img	*select_texture(void)
+{
+	if (pos()->side == 1 && pos()->ray_dir.y > 0)
+		return (win()->south);
+	if (pos()->side == 1 && pos()->ray_dir.y <= 0)
+		return (win()->north);
+	if (pos()->side == 0 && pos()->ray_dir.x >= 0)
+		return (win()->east);
+	if (pos()->side == 0 && pos()->ray_dir.x < 0)
+		return (win()->west);
+	return (NULL);
 }

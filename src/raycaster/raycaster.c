@@ -3,119 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 12:45:48 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/09 21:23:37 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:53:00 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void	raycaster(t_pos *pos);
-static void	dda(t_pos *pos);
-static void	step(t_pos *pos, t_player *player);
-static void	init_raycasting(t_pos *pos, t_player *player);
-static void	calculate_height(t_pos *pos, t_player *player);
+int					render(void);
+static void			raycaster(void);
+static unsigned int	rgb_to_hex(int flag);
+static void			paint_background(void);
+static void			set_image_pixel(int x, int y, int color);
 
-void	raycaster(t_pos *pos)
+int	render(void)
 {
-	t_player	*player;
-
-	player = win()->player;
-	init_raycasting(pos, player);
-	step(pos, player);
-	dda(pos);
-	calculate_height(pos, player);
-	img_scaling(pos, player);
-	pos->curr_x++;
+	// add movements
+	raycaster();
+	paint_background();
+	return (0);
 }
 
-static void	init_raycasting(t_pos *pos, t_player *player)
+static void	raycaster(void)
 {
-	pos->cam_x = (2 * pos->curr_x) / (double) WIDTH - 1;
-	pos->ray_dir_x = player->dir_vect.x + player->cam_plane_vect.x * pos->cam_x;
-	pos->ray_dir_y = player->dir_vect.y + player->cam_plane_vect.y * pos->cam_x;
-	pos->map_x = (int) player->pos.x;
-	pos->map_y = (int) player->pos.y;
-	pos->delta_dist_x = fabs(1 / pos->ray_dir_x);
-	pos->delta_dist_y = fabs(1 / pos->ray_dir_y);
-	pos->hit = 0;
-}
+	int		x;
+	t_img	*img;
 
-static void	step(t_pos *pos, t_player *player)
-{
-	if (pos->ray_dir_x < 0)
+	x = -1;
+	pos()->pos.x = map()->pos[1];
+	pos()->pos.y = map()->pos[2];
+	free_int_array(win()->pixel_data);
+	win()->pixel_data = create_pixel_data();
+	while (++x < WIDTH)
 	{
-		pos->step_x = -1;
-		pos->side_dist_x = (player->pos.x - pos->map_x) * pos->delta_dist_x;
-	}
-	else
-	{
-		pos->step_x = 1;
-		pos->side_dist_x = (pos->map_x + 1.0 - player->pos.x)
-			* pos->delta_dist_x;
-	}
-	if (pos->ray_dir_y < 0)
-	{
-		pos->step_y = -1;
-		pos->side_dist_y = (player->pos.y - pos->map_y) * pos->delta_dist_y;
-	}
-	else
-	{
-		pos->step_y = 1;
-		pos->side_dist_y = (pos->map_y + 1.0 - player->pos.y)
-			* pos->delta_dist_y;
+		set_pos(x);
+		step();
+		dda();
+		camera_distance();
+		prep_draw_line();
+		img = select_texture();
+		apply_texture(img, x);
 	}
 }
 
-static void	dda(t_pos *pos)
+static void	set_image_pixel(int x, int y, int color)
 {
-	while (!pos->hit)
+	int	pixel;
+
+	pixel = y * (win()->mlx_img->line_len / 4) + x;
+	win()->mlx_img->addr[pixel] = color;
+}
+
+static unsigned int	rgb_to_hex(int flag)
+{
+	if (flag)
+		return (ft_atoi(map()->ceiling[0]) * 65536 + ft_atoi(map()->ceiling[1])
+			* 256 + ft_atoi(map()->ceiling[2]));
+	return (ft_atoi(map()->floor[0]) * 65536 + ft_atoi(map()->floor[1]) * 256
+		+ ft_atoi(map()->floor[2]));
+}
+
+static void	paint_background(void)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < HEIGHT)
 	{
-		if (pos->side_dist_x < pos->side_dist_y)
+		j = -1;
+		while (++j < WIDTH)
 		{
-			pos->side_dist_x += pos->delta_dist_x;
-			pos->map_x += pos->step_x;
-			if (pos->step_x == -1)
-				pos->side = EAST;
+			if (win()->pixel_data[i][j] > 0)
+				set_image_pixel(j, i, win()->pixel_data[i][j]);
+			else if (i < HEIGHT / 2)
+				set_image_pixel(j, i, rgb_to_hex(1));
 			else
-				pos->side = WEST;
+				set_image_pixel(j, i, rgb_to_hex(0));
 		}
-		else
-		{
-			pos->side_dist_y += pos->delta_dist_y;
-			pos->map_y += pos->step_y;
-			if (pos->step_y == -1)
-				pos->side = SOUTH;
-			else
-				pos->side = NORTH;
-		}
-		if (map()->map[pos->map_y][pos->map_x] == '1')
-			pos->hit = 1;
 	}
+	mlx_put_image_to_window(win()->mlx, win()->mlx_win, win()->mlx_img->mlx_img, 0, 0);
 }
-
-static void	calculate_height(t_pos *pos, t_player *player)
-{
-	if (pos->side == WEST || pos->side == EAST)
-		pos->prep_wall_dist = ((double) pos->map_x - player->pos.x
-				+ (1 - pos->step_x) / 2) / pos->ray_dir_x;
-	else
-		pos->prep_wall_dist = ((double) pos->map_y - player->pos.y
-				+ (1 - pos->step_y) / 2) / pos->ray_dir_y;
-	pos->line_height = HEIGHT / pos->prep_wall_dist;
-	pos->draw_start = -(pos->line_height / 2) + ((HEIGHT / 2) * player->cam_height);
-	if (pos->draw_start <= 0)
-		pos->draw_start = 0;
-	pos->draw_end = pos->line_height / 2 + ((HEIGHT / 2) * player->cam_height);
-	if (pos->draw_end >= HEIGHT)
-		pos->draw_end = HEIGHT - 1;
-}
-
-	// printf("DEBUG: prep_wall_dist => %f\n", pos->prep_wall_dist);
-	// printf("DEBUG: map_x => %d, map_y => %d\n", pos->map_x, pos->map_y);
-    // printf("DEBUG: player_pos_x => %f, player_pos_y => %f\n", player->pos.x, player->pos.y);
-    // printf("DEBUG: step_x => %d, step_y => %d\n", pos->step_x, pos->step_y);
-    // printf("DEBUG: ray_dir_x => %f, ray_dir_y => %f\n", pos->ray_dir_x, pos->ray_dir_y);
-	// printf("DEBUG: draw_start => %d\n", pos->draw_start);

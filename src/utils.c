@@ -6,7 +6,7 @@
 /*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:17:23 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/07 17:47:50 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:20:07 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,22 @@ void	clean_mallocs(void)
 	free(map()->so);
 	free(map()->ea);
 	free(map()->we);
-	free(win()->north);
-	free(win()->south);
+	free(win()->north->px_data);
+	free(win()->east->px_data);
+	free(win()->west->px_data);
+	free(win()->south->px_data);
 	free(win()->east);
 	free(win()->west);
+	free(win()->north);
+	free(win()->south);
 	free_dptr(map()->map);
+	free(map()->floor[0]);
+	free(map()->floor[1]);
+	free(map()->floor[2]);
+	free(map()->ceiling[0]);
+	free(map()->ceiling[1]);
+	free(map()->ceiling[2]);
+	free_int_array(win()->pixel_data);
 }
 
 int	get_flag(char *line)
@@ -53,7 +64,8 @@ void	free_dptr(char **str)
 	i = -1;
 	while (str[++i])
 		free(str[i]);
-	free(str);
+	if (str)
+		free(str);
 }
 
 char	*ft_strjoin_char(char *str, char c)
@@ -72,13 +84,12 @@ char	*ft_strjoin_char(char *str, char c)
 
 void	finish_execution(void)
 {
+	clean_mallocs();
+	mlx_clear_window(win()->mlx, win()->mlx_win);
 	mlx_destroy_image(win()->mlx, win()->mlx_img->mlx_img);
-	mlx_destroy_image(win()->mlx, win()->east->mlx_img);
-	mlx_destroy_image(win()->mlx, win()->west->mlx_img);
-	mlx_destroy_image(win()->mlx, win()->north->mlx_img);
-	mlx_destroy_image(win()->mlx, win()->south->mlx_img);
 	mlx_destroy_window(win()->mlx, win()->mlx_win);
 	mlx_destroy_display(win()->mlx);
-	clean_mallocs();
+	free(win()->mlx);
+	free(win()->mlx_img);
 	exit(0);
 }

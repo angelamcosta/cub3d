@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/09 20:53:58 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:47:52 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ void	test_maps(void)
 	printf("DEBUG: rows => %i\tcols => %i\n", map()->rows, map()->cols);
 }
 
-void	init_pos(void)
-{
-	win()->player = (t_player *)malloc(sizeof(t_player));
-	win()->player->dir_vect.x = 0;
-	win()->player->dir_vect.y = 0;
-	win()->player->cam_plane_vect.x = 0;
-	win()->player->cam_plane_vect.y = 0;
-	win()->player->pos.x = 5;
-	win()->player->pos.y = 5;
-	win()->player->sens = 0.1;
-	win()->player->speed = 0.05;
-	win()->player->cam_height = 1.0;
-	add_player();
-}
-
 // TODO : - Replace the use of static func by using var
 
 int	main(int argc, char **argv)
@@ -64,12 +49,7 @@ int	main(int argc, char **argv)
 	set_row_col();
 	if (!is_map_closed() || !is_valid_path())
 		return (write(1, "error\n", 7));
-	convert_rgb();
 	init_instance();
-	init_pos();
-	mlx_hook(win()->mlx_win, 2, 1L << 0, keyhooks, win);
-	mlx_loop_hook(win()->mlx, &render, win());
-	mlx_loop(win()->mlx);
 	finish_execution();
 	return (0);
 }

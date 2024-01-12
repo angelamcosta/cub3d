@@ -28,13 +28,14 @@ SRC		=	cub3D.c \
 			$(FILES)/raycaster/player.c \
 			$(FILES)/raycaster/raycaster.c \
 			$(FILES)/raycaster/scaling.c \
+			$(FILES)/raycaster/utils.c \
 			$(FILES)/win/hooks.c \
 			$(FILES)/win/structs.c \
-			$(FILES)/win/win.c \
 			$(FILES)/general.c \
 			$(FILES)/get_next_line_utils.c \
 			$(FILES)/get_next_line.c \
-			$(FILES)/utils.c
+			$(FILES)/utils.c \
+			$(FILES)/utils2.c
 
 OBJ		=	$(SRC:.c=.o)
 
