@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:29:47 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/12 14:47:56 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/14 22:21:42 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ void	apply_texture(t_img *img, int x)
 
 void	set_camera(void)
 {
-	if (map()->pos[0] == 'S' || map()->pos[0] == 'N')
+	if (map()->player == 'S' || map()->player == 'N')
 		set_camera_ns();
-	else if (map()->pos[0] == 'E' || map()->pos[0] == 'W')
+	else if (map()->player == 'E' || map()->player == 'W')
 		set_camera_ew();
 }
 
 static void	set_camera_ns(void)
 {
-	if (map()->pos[0] == 'S')
+	if (map()->player == 'S')
 	{
 		pos()->dir.x = 0;
 		pos()->dir.y = 1;
 		pos()->plane.x = -0.66;
 		pos()->plane.y = 0;
 	}
-	else if (map()->pos[0] == 'N')
+	else if (map()->player == 'N')
 	{
 		pos()->dir.x = 0;
 		pos()->dir.y = -1;
@@ -71,14 +71,14 @@ static void	set_camera_ns(void)
 
 static void	set_camera_ew(void)
 {
-	if (map()->pos[0] == 'E')
+	if (map()->player == 'E')
 	{
 		pos()->dir.x = 1;
 		pos()->dir.y = 0;
 		pos()->plane.x = 0;
 		pos()->plane.y = 0.66;
 	}
-	else if (map()->pos[0] == 'W')
+	else if (map()->player == 'W')
 	{
 		pos()->dir.x = -1;
 		pos()->dir.y = 0;

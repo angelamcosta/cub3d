@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 19:19:53 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/14 14:43:47 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/14 22:20:39 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	is_valid_path(void)
 	int	row;
 	int	col;
 
-	row = map()->pos[1];
-	col = map()->pos[2];
+	col = (int)map()->pos.x;
+	row = (int)map()->pos.y;
 	if (row < 0 || row >= map()->rows || col < 0 || col >= map()->cols)
 		return (0);
 	if ((row + 1 < map()->rows && map()->map[row + 1][col] == '1') && (row

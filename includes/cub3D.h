@@ -6,7 +6,7 @@
 /*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/12 14:47:49 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/15 00:00:39 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@
 # define IMG_SIZE 64
 # define WIDTH 640
 # define HEIGHT 640
+# define SPEED 0.05
+# define ROT 0.045
+
+typedef struct	s_keys
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int	right;
+}				t_keys;
 
 typedef struct s_coord
 {
@@ -44,7 +56,6 @@ typedef struct s_pos
 	int			side;
 	int			map_x;
 	int			map_y;
-	int			curr_x;
 	int			step_x;
 	int			step_y;
 	int			draw_end;
@@ -81,7 +92,8 @@ typedef struct s_map
 {
 	int			rows;
 	int			cols;
-	int			pos[3];
+	char		player;
+	t_coord		pos;
 	char		*no;
 	char		*so;
 	char		*ea;
@@ -101,6 +113,7 @@ typedef struct s_win
 	t_img		*east;
 	t_img		*west;
 	t_img		*mlx_img;
+	t_keys		keys;
 }				t_win;
 
 typedef struct s_line
@@ -145,10 +158,8 @@ int				save_textures(char *pos, char *texture);
 // imgs
 void			init_texture(void);
 int				**create_pixel_data(void);
-// player
-void			add_player(void);
 // raycaster
-int					render(void);
+int				render(void);
 // scaling
 void			dda(void);
 void			step(void);
@@ -156,13 +167,17 @@ void			prep_draw_line(void);
 void			camera_distance(void);
 t_img			*select_texture(void);
 // utils (raycaster)
-void		set_camera(void);
-void		apply_texture(t_img *img, int x);
+void			set_camera(void);
+void			apply_texture(t_img *img, int x);
 // win general
 void			convert_rgb(void);
 int				encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
 // hooks
-int				keyhooks(int keycode);
+int				rotate(int i);
+t_coord			get_temp_pos(char dir);
+int				move(char dir, int flag);
+int				keyhooks_press(int keycode);
+int				keyhooks_release(int keycode);
 // structs
 void			set_images(void);
 // general

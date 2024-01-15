@@ -6,20 +6,11 @@
 /*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:08:27 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/12 14:47:52 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/14 22:20:45 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3D.h"
-
-static void	init_vars(void);
-
-static void	init_vars(void)
-{
-	map()->pos[0] = '-';
-	map()->pos[1] = '-';
-	map()->pos[2] = '-';
-}
 
 void	test_maps(void)
 {
@@ -41,7 +32,6 @@ void	test_maps(void)
 
 int	main(int argc, char **argv)
 {
-	init_vars();
 	if (argc != 2 || !verify_map(argv[1]))
 		return (write(2, ARG_ERROR, 49));
 	if (!read_args(argv[1]))
