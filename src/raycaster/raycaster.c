@@ -6,7 +6,7 @@
 /*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 12:45:48 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/12 14:53:00 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/14 23:55:02 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@ static void			set_image_pixel(int x, int y, int color);
 
 int	render(void)
 {
-	// add movements
+	if (win()->keys.w)
+		move('W', 1);
+	if (win()->keys.d)
+		move('D', 1);
+	if (win()->keys.a)
+		move('A', -1);
+	if (win()->keys.s)
+		move('S', -1);
+	if (win()->keys.left)
+		rotate(-1);
+	if (win()->keys.right)
+		rotate(1);
 	raycaster();
 	paint_background();
 	return (0);
@@ -32,8 +43,9 @@ static void	raycaster(void)
 	t_img	*img;
 
 	x = -1;
-	pos()->pos.x = map()->pos[1];
-	pos()->pos.y = map()->pos[2];
+	pos()->pos.x = map()->pos.x;
+	pos()->pos.y = map()->pos.y;
+	// printf("DEBUG: pos_x => %f\tpos-y => %f\n", pos()->pos.x, pos()->pos.y);
 	free_int_array(win()->pixel_data);
 	win()->pixel_data = create_pixel_data();
 	while (++x < WIDTH)
@@ -84,5 +96,6 @@ static void	paint_background(void)
 				set_image_pixel(j, i, rgb_to_hex(0));
 		}
 	}
-	mlx_put_image_to_window(win()->mlx, win()->mlx_win, win()->mlx_img->mlx_img, 0, 0);
+	mlx_put_image_to_window(win()->mlx, win()->mlx_win, 
+		win()->mlx_img->mlx_img, 0, 0);
 }

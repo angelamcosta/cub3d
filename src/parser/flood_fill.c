@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:19:29 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/18 17:31:55 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/14 22:20:10 by mpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ void	dfs(int row, int col, char mark)
 	if (map()->map[row][col] == 'S' || map()->map[row][col] == 'N'
 		|| map()->map[row][col] == 'E' || map()->map[row][col] == 'W')
 	{
-		if (map()->pos[0] != '-')
+		if (map()->player > 0)
 			return ;
 		if (row == 0 || row == map()->rows - 1 || col == 0 || col == map()->cols
 			- 1)
 			return ;
-		map()->pos[0] = map()->map[row][col];
-		map()->pos[1] = row;
-		map()->pos[2] = col;
+		map()->player = map()->map[row][col];
+		map()->pos.x = (double)col + 0.5;
+		map()->pos.y = (double)row + 0.5;
 		map()->map[row][col] = mark;
 		return ;
 	}
