@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:23:02 by anlima            #+#    #+#             */
-/*   Updated: 2023/12/22 13:18:05 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:42:57 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,6 @@ int	check_textures(char *filename)
 	}
 	return (1);
 }
-
-// int	check_textures(char *filename)
-// {
-// 	if (!check_extension(&filename[1], ".xpm"))
-// 		return (0);
-// 	return (1);
-// }
 
 int	save_textures(char *pos, char *texture)
 {

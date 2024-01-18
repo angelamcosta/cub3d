@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scaling.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 18:57:58 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/14 23:12:33 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:36:49 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ void	prep_draw_line(void);
 void	camera_distance(void);
 t_img	*select_texture(void);
 
+// calculates the distance from the player
+// to the wall
 void	camera_distance(void)
 {
 	if (pos()->side == 0)
 		pos()->prep_wall_dist = (pos()->side_dist.x - pos()->delta_dist.x);
 	else
 		pos()->prep_wall_dist = (pos()->side_dist.y - pos()->delta_dist.y);
-	// printf("DEBUG: C_DIST\n");
-	// printf("DEBUG: side dist x: %f\tdelta x: %f\n", pos()->side_dist.x, pos()->delta_dist.x);
-	// printf("DEBUG: side dist y: %f\tdelta y: %f\n\n", pos()->side_dist.y, pos()->delta_dist.y);
-	// exit(1);
 }
 
+// Digital Differential Analyzer algorithm for ray casting
+// steps through the map grid until it hits a wall
 void	dda(void)
 {
 	pos()->hit = 0;
@@ -50,36 +50,39 @@ void	dda(void)
 		if (map()->map[pos()->map_y][pos()->map_x] == '1')
 			pos()->hit = 1;
 	}
-	// printf("DEBUG: DDA\n");
-	// printf("DEBUG: side dist x: %f\tdelta x: %f\n", pos()->side_dist.x, pos()->delta_dist.x);
-	// printf("DEBUG: side dist y: %f\tdelta y: %f\n\n", pos()->side_dist.y, pos()->delta_dist.y);
-	// exit(1);
 }
 
+// calculates the step and initial side
+// distances for ray casting
 void	step(void)
 {
 	if (pos()->ray_dir.x < 0)
 	{
 		pos()->step_x = -1;
-		pos()->side_dist.x = (pos()->pos.x - pos()->map_x) * pos()->delta_dist.x;
+		pos()->side_dist.x = (pos()->pos.x - pos()->map_x)
+		* pos()->delta_dist.x;
 	}
 	else
 	{
 		pos()->step_x = 1;
-		pos()->side_dist.x = (pos()->map_x + 1.0 - pos()->pos.x) * pos()->delta_dist.x;
+		pos()->side_dist.x = (pos()->map_x + 1.0 - pos()->pos.x)
+		* pos()->delta_dist.x;
 	}
 	if (pos()->ray_dir.y < 0)
 	{
 		pos()->step_y = -1;
-		pos()->side_dist.y = (pos()->pos.y - pos()->map_y) * pos()->delta_dist.y;
+		pos()->side_dist.y = (pos()->pos.y - pos()->map_y)
+		* pos()->delta_dist.y;
 	}
 	else
 	{
 		pos()->step_y = 1;
-		pos()->side_dist.y = (pos()->map_y + 1.0 - pos()->pos.y) * pos()->delta_dist.y;
+		pos()->side_dist.y = (pos()->map_y + 1.0 - pos()->pos.y)
+		* pos()->delta_dist.y;
 	}
 }
 
+// prepares variables for drawing a vertical line representing a wall
 void	prep_draw_line(void)
 {
 	pos()->line_height = (int)(HEIGHT / pos()->prep_wall_dist);
@@ -96,6 +99,8 @@ void	prep_draw_line(void)
 	pos()->wall_x -= floor((pos()->wall_x));
 }
 
+// selects the texture based on the side and direction
+// of the wall hit by the ray.
 t_img	*select_texture(void)
 {
 	if (pos()->side == 1 && pos()->ray_dir.y > 0)

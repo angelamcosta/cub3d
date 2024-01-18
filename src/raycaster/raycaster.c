@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 12:45:48 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/14 23:55:02 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:38:32 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static unsigned int	rgb_to_hex(int flag);
 static void			paint_background(void);
 static void			set_image_pixel(int x, int y, int color);
 
+// checks for user input to move or rotate the player
+// calls the `raycaster` function and then paints the background.
 int	render(void)
 {
 	if (win()->keys.w)
@@ -37,6 +39,9 @@ int	render(void)
 	return (0);
 }
 
+// responsible for casting rays and generating the main image
+// iterates over each column of the screen, performs ray casting
+// and calls functions to apply textures to the pixels
 static void	raycaster(void)
 {
 	int		x;
@@ -45,7 +50,6 @@ static void	raycaster(void)
 	x = -1;
 	pos()->pos.x = map()->pos.x;
 	pos()->pos.y = map()->pos.y;
-	// printf("DEBUG: pos_x => %f\tpos-y => %f\n", pos()->pos.x, pos()->pos.y);
 	free_int_array(win()->pixel_data);
 	win()->pixel_data = create_pixel_data();
 	while (++x < WIDTH)
@@ -60,6 +64,7 @@ static void	raycaster(void)
 	}
 }
 
+// sets the color of a pixel in the image buffer
 static void	set_image_pixel(int x, int y, int color)
 {
 	int	pixel;
@@ -68,6 +73,7 @@ static void	set_image_pixel(int x, int y, int color)
 	win()->mlx_img->addr[pixel] = color;
 }
 
+// convert RGB values to a hexadecimal color code
 static unsigned int	rgb_to_hex(int flag)
 {
 	if (flag)
@@ -77,6 +83,9 @@ static unsigned int	rgb_to_hex(int flag)
 		+ ft_atoi(map()->floor[2]));
 }
 
+// fills the background of the screen with floor
+// and ceiling colors and the pixel data
+// obtained from the raycaster function
 static void	paint_background(void)
 {
 	int	i;
@@ -96,6 +105,6 @@ static void	paint_background(void)
 				set_image_pixel(j, i, rgb_to_hex(0));
 		}
 	}
-	mlx_put_image_to_window(win()->mlx, win()->mlx_win, 
-		win()->mlx_img->mlx_img, 0, 0);
+	mlx_put_image_to_window(win()->mlx, win()->mlx_win, win()->mlx_img->mlx_img,
+		0, 0);
 }

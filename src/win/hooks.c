@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:02:13 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/15 00:00:48 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:20:28 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	move(char dir, int flag)
 				* SPEED)][(int)pos()->pos.x] != '1')
 			pos()->pos.y += pos()->dir.y * SPEED * flag;
 		if (map()->map[(int)pos()->pos.y][(int)(pos()->pos.x + pos()->dir.x
-				* SPEED)] != '1')
+			* SPEED)] != '1')
 			pos()->pos.x += pos()->dir.x * SPEED * flag;
 	}
 	else
@@ -81,11 +81,10 @@ int	move(char dir, int flag)
 				* SPEED)][(int)pos()->pos.x] != '1')
 			pos()->pos.y += pos()->plane.y * SPEED * flag;
 		if (map()->map[(int)pos()->pos.y][(int)(pos()->pos.x + pos()->plane.x
-				* SPEED)] != '1')
+			* SPEED)] != '1')
 			pos()->pos.x += pos()->plane.x * SPEED * flag;
 	}
-	map()->pos.x = temp.x;
-	map()->pos.y = temp.y;
+	map()->pos = temp;
 	return (1);
 }
 
@@ -96,13 +95,11 @@ int	rotate(int i)
 
 	dir_x = pos()->dir.x;
 	plane_x = pos()->plane.x;
-	pos()->dir.x = pos()->dir.x * cos(i * ROT) - pos()->dir.y * sin(i
-			* ROT);
+	pos()->dir.x = pos()->dir.x * cos(i * ROT) - pos()->dir.y * sin(i * ROT);
 	pos()->dir.y = dir_x * sin(i * ROT) + pos()->dir.y * cos(i * ROT);
 	pos()->plane.x = pos()->plane.x * cos(i * ROT) - pos()->plane.y * sin(i
-			* ROT);
-	pos()->plane.y = plane_x * sin(i * ROT) +
-		pos()->plane.y * cos(i * ROT);
+		* ROT);
+	pos()->plane.y = plane_x * sin(i * ROT) + pos()->plane.y * cos(i * ROT);
 	return (1);
 }
 

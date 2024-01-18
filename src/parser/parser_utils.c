@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 19:19:53 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/14 22:20:39 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:36:25 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_char(int i, int j);
 int	check_char(int i, int j)
 {
 	if (((i - 1 > 0 && i < map()->rows && (map()->map[i - 1][j] != '1'
-					&& map()->map[i - 1][j] != '.')) || (i >= 0 && i
+				&& map()->map[i - 1][j] != '.')) || (i >= 0 && i
 				+ 1 < map()->rows && (map()->map[i + 1][j] != '1'
 					&& map()->map[i + 1][j] != '.')) || (j - 1 > 0
 				&& j < map()->cols && (map()->map[i][j - 1] != '1'

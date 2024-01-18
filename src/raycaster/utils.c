@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:29:47 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/14 22:21:42 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:39:29 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	set_camera_ns(void);
 static void	set_camera_ew(void);
 void		apply_texture(t_img *img, int x);
 
+// applies the selected texture to the pixels of
+// the vertical line representing a wall
 void	apply_texture(t_img *img, int x)
 {
 	int	y;
@@ -29,16 +31,13 @@ void	apply_texture(t_img *img, int x)
 	img->img_pos = (pos()->draw_start - HEIGHT / 2 + pos()->line_height / 2)
 		* img->img_step;
 	y = pos()->draw_start;
-	//printf("DEBUG: y => %i\n", y);
 	while (y < pos()->draw_end)
 	{
-		//printf("DEBUG: pixel_data (BEFORE) => %i\n", win()->pixel_data[y][x]);
 		img->pos_y = (int)img->img_pos & (img->width - 1);
 		img->img_pos += img->img_step;
 		if (img->px_data[img->width * img->pos_y + img->pos_x] > 0)
 			win()->pixel_data[y][x] = img->px_data[img->width * img->pos_y
-				+ img->pos_x];
-		//printf("DEBUG: pixel_data (AFTER) => %i\n", win()->pixel_data[y][x]);
+			+ img->pos_x];
 		y++;
 	}
 }

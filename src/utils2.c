@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:36:15 by mpedroso          #+#    #+#             */
-/*   Updated: 2024/01/14 23:32:34 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:46:36 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void	init_instance(void)
 	set_camera();
 	render();
 	mlx_hook(win()->mlx_win, 17, 1L << 0, close, win()->mlx_win);
-	mlx_hook(win()->mlx_win, KeyPress, KeyPressMask, keyhooks_press, win()->mlx_win);
-	mlx_hook(win()->mlx_win, KeyRelease, KeyReleaseMask, keyhooks_release, win()->mlx_win);
+	mlx_hook(win()->mlx_win, KeyPress, KeyPressMask,
+		keyhooks_press, win()->mlx_win);
+	mlx_hook(win()->mlx_win, KeyRelease, KeyReleaseMask,
+		keyhooks_release, win()->mlx_win);
 	mlx_loop_hook(win()->mlx, render, win);
 	mlx_loop(win()->mlx);
 }
@@ -73,8 +75,9 @@ void	free_int_array(int **arr)
 
 	i = -1;
 	while (arr && arr[++i])
-		free(arr[i]);
-	free(arr);
+		exec_free(arr[i]);
+	if (arr)
+		free(arr);
 	arr = NULL;
 }
 
@@ -87,12 +90,4 @@ void	set_pos(int x)
 	pos()->delta_dist.y = fabs(1 / pos()->ray_dir.y);
 	pos()->map_x = (int)map()->pos.x;
 	pos()->map_y = (int)map()->pos.y;
-	// printf("DEBUG: SET POS\n");
-	// printf("pos()->cam_x: %f\n", pos()->cam_x);
-	// printf("pos()->ray_dir.x %f\n", pos()->ray_dir.x);
-	// printf("pos()->ray_dir.y: %f\n", pos()->ray_dir.y);
-	// printf("pos()->delta_dist.x: %f\n", pos()->delta_dist.x);
-	// printf("pos()->delta_dist.y: %f\n", pos()->delta_dist.y);
-	// printf("pos()->map_x: %i\n", pos()->map_x);
-	// printf("pos()->map_y: %i\n", pos()->map_y);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:19:29 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/14 22:20:10 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:34:35 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,7 @@ void	set_row_col(void)
 	size_t	max_len;
 	char	*new_row;
 
-	i = -1;
-	max_len = 0;
-	while (map()->map && map()->map[++i])
-	{
-		len = ft_strlen(map()->map[i]);
-		if (len > max_len)
-			max_len = len;
-	}
+	max_len = get_max_len();
 	map()->cols = max_len;
 	i = -1;
 	while (map()->map && map()->map[++i])
@@ -72,10 +65,7 @@ void	dfs(int row, int col, char mark)
 		if (row == 0 || row == map()->rows - 1 || col == 0 || col == map()->cols
 			- 1)
 			return ;
-		map()->player = map()->map[row][col];
-		map()->pos.x = (double)col + 0.5;
-		map()->pos.y = (double)row + 0.5;
-		map()->map[row][col] = mark;
+		set_player(row, col, mark);
 		return ;
 	}
 	if (map()->map[row][col] != '0')

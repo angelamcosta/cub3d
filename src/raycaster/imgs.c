@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   imgs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpedroso <mpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:32:40 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/12 15:19:125 by mpedroso         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:01:56 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int				**create_pixel_data(void);
 static t_img	*create_bg_img(t_img *img);
 static void		copy_pixel_data(t_img *img);
 static t_img	*open_image(t_img *img, char *path);
-
 
 static void	copy_pixel_data(t_img *img)
 {
@@ -75,8 +74,7 @@ static t_img	*open_image(t_img *img, char *path)
 	if (!img->mlx_img)
 	{
 		printf("Texture %s is empty or invalid!\n", path);
-		free(img);
-		// free rest of stuff
+		finish_execution();
 		exit(1);
 	}
 	img->addr = (int *)mlx_get_data_addr(img->mlx_img, &img->bpp,
