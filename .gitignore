@@ -3,3 +3,4 @@ cub3D
 valgrind_log.txt
 .vscode
 *.a
+all_maps_valgrind.out
