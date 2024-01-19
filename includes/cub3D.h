@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:09:54 by anlima            #+#    #+#             */
-/*   Updated: 2024/01/18 18:03:22 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:10:15 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,7 @@ t_img		*select_texture(void);
 void		set_camera(void);
 void		apply_texture(t_img *img, int x);
 // win general
-void		convert_rgb(void);
-int			encode_rgb(uint8_t red, uint8_t green, uint8_t blue);
+int			close_win_x(t_win	*win);
 // hooks
 int			rotate(int i);
 t_coord		get_temp_pos(char dir);
@@ -194,7 +193,6 @@ void		clean_mallocs(void);
 int			get_flag(char *line);
 void		free_dptr(char **str);
 void		finish_execution(void);
-void		close_win_error(void);
 char		*ft_strjoin_char(char *str, char c);
 // utils 2
 void		set_pos(int x);
