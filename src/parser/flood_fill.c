@@ -97,6 +97,8 @@ int	mark_regions(void)
 				dfs(i, j, mark);
 				flag = 1;
 			}
+			if (map()->map[i][j] == ' ')
+				map()->map[i][j] = '1';
 		}
 	}
 	return (flag);

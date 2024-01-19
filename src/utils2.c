@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:36:15 by mpedroso          #+#    #+#             */
-/*   Updated: 2024/01/18 17:46:36 by anlima           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:07:31 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	init_instance(void)
 	init_texture();
 	set_camera();
 	render();
-	mlx_hook(win()->mlx_win, 17, 1L << 0, close, win()->mlx_win);
 	mlx_hook(win()->mlx_win, KeyPress, KeyPressMask,
 		keyhooks_press, win()->mlx_win);
 	mlx_hook(win()->mlx_win, KeyRelease, KeyReleaseMask,
 		keyhooks_release, win()->mlx_win);
+	mlx_hook(win()->mlx_win, DestroyNotify, KeyPressMask, close_win_x, win);
 	mlx_loop_hook(win()->mlx, render, win);
 	mlx_loop(win()->mlx);
 }
